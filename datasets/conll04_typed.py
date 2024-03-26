@@ -100,7 +100,7 @@ class CONLL04(datasets.GeneratorBasedBuilder):
         """This function returns the examples in the raw (text) triplet form."""
         logging.info("generating examples from = %s", filepath)
 
-        with open(filepath) as json_file:
+        with open(filepath[0]) as json_file:
             f = json.load(json_file)
             for id_, row in enumerate(f):
                 triplets = ''

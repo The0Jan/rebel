@@ -21,7 +21,8 @@ def load_models():
         _ = model.to("cuda:0") # comment if no GPU available
     _ = model.eval()
     print("+++++ loaded model", time() - st_time)
-    dataset = load_dataset('datasets/rebel-short.py', data_files={'train': 'data/rebel/sample.jsonl', 'dev': 'data/rebel/sample.jsonl', 'test': 'data/rebel/sample.jsonl', 'relations': "data/relations_count.tsv"}, split="validation")
+    dataset = load_dataset(path = 'datasets/rebel-short.py', data_files={'train': 'data/rebel/sample.jsonl', 'dev': 'data/rebel/sample.jsonl', 'test': 'data/rebel/sample.jsonl', 'relations': "data/relations_count.tsv"}, split="validation")
+    print("loaded")
     return (tokenizer, model, dataset)
 
 def extract_triplets(text):
