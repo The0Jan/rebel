@@ -263,3 +263,34 @@ def extract_triplets_typed(text, mapping_types= {'<peop>': 'Peop', '<org>': 'Org
     if subject != '' and relation != '' and object_ != '' and object_type != '' and subject_type != '':
         triplets.append({'head': subject.strip(), 'head_type': subject_type, 'type': relation.strip(),'tail': object_.strip(), 'tail_type': object_type})
     return triplets
+
+def extract_triplets_selfmade(text):
+    triplets = []
+    relation, subject, relation, object_ = '', '', '', ''
+    text = text.strip('')
+    current = 'x'
+    for token in text.replace("<s>", "").replace("<pad>", "").replace("</s>", "").replace("<", " ").replace(">", " ").split():
+        if token == "triplet":
+            current = 't'
+            if relation != '':
+                triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
+                relation = ''
+            subject = ''
+        elif token == "subj":
+            current = 's'
+            if relation != '':
+                triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
+            object_ = ''
+        elif token == "obj":
+            current = 'o'
+            relation = ''
+        else:
+            if current == 't':
+                subject += ' ' + token
+            elif current == 's':
+                object_ += ' ' + token
+            elif current == 'o':
+                relation += ' ' + token
+    if subject != '' and relation != '' and object_ != '':
+        triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
+    return triplets
