@@ -86,13 +86,13 @@ relations_nyt = {'/people/person/nationality': 'country of citizenship', '/sport
                     '/location/country/capital': 'capital', '/business/company/place_founded': 'location of formation', 
                     '/people/person/profession': 'occupation'}
 
-relations_selfmade = ['acquaintance', 'admires', 'aunt/uncle', 'betrayed', 'collaboration', 
-                      'colleague', 'competed', 'cousin', 'defended', 'detests', 
+relations_selfmade = ['acquaintance', 'admires', 'aunt/uncle', 'betrayed', 'workedWith',
+                      'competed', 'cousin', 'defended', 'detests', 
                       'disappointed', 'envies', 'fought', 'friend', 'grandparent', 
-                      'grieves', 'hates', 'helped', 'idolizes', 'influencedBy', 'killed', 
+                      'grieves', 'hates', 'helped', 'influencedBy', 'killed', 
                       'likes', 'loves', 'mentor', 'negotiated', 'neighbour', 'nickname', 
                       'opposed', 'parent', 'predecessor', 'respects', 'saved', 'sibling', 
-                      'sponsored', 'spouse', 'successor', 'supervisor', 'supported', 'trusts']
+                      'sponsored', 'spouse', 'successor', 'supervisor', 'trusts']
 
 
 class BasePLModule(pl.LightningModule):
