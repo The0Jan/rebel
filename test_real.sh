@@ -1,0 +1,1 @@
+python test.py model=rebel_model data=real_data train=self_train do_predict=True checkpoint_path='E:/CodesRepos/MGR_Gaming/Model/rebel/src/outputs/2024-05-09/07-58-22/experiments/self_personal/last.ckpt'
