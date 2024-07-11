@@ -21,9 +21,10 @@ model = AutoModelForSeq2SeqLM.from_pretrained(
 )
 model.resize_token_embeddings(len(tokenizer))
 
-conf = omegaconf.OmegaConf.load('outputs/2024-04-01/20-26-19/.hydra/config.yaml')
-pl_module = BasePLModule(conf, config, tokenizer, model)
-model = pl_module.load_from_checkpoint(checkpoint_path = 'outputs/2024-04-01/20-26-19/experiments/self_personal/last.ckpt', config = config, tokenizer = tokenizer, model = model)
 
-model.model.save_pretrained('../model/REBEL-self_personal')
-model.tokenizer.save_pretrained('../model/REBEL-self_personal')
+conf = omegaconf.OmegaConf.load('outputs/2024-05-09/07-58-22/.hydra/config.yaml')
+pl_module = BasePLModule(conf, config, tokenizer, model)
+model = pl_module.load_from_checkpoint(checkpoint_path = 'outputs/2024-05-09/07-58-22/experiments/self_personal/last.ckpt', config = config, tokenizer = tokenizer, model = model)
+
+model.model.save_pretrained('../model/personal-rel')
+model.tokenizer.save_pretrained('../model/personal-rel')
