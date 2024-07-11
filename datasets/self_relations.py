@@ -84,11 +84,10 @@ class PERSONAL(datasets.GeneratorBasedBuilder):
                 triplets = ''
                 prev_subj = None
                 id_key  = list(entry.keys())[0]
-                triple_sets = entry[id_key]['originaltriplesets']['originaltripleset']
+                triple_sets = entry[id_key]['originaltriplesets']['originaltripleset'][0]
                 
                 # Musisz juz sam załatwić by dane były w kolejności -> ogarnij by dane się zgadzały pod tym względem -> potencjalny WIP
-                for triple_l in triple_sets:
-                    triple = triple_l[0]
+                for triple in triple_sets:
                     if prev_subj != triple['subject']:
                         prev_subj = triple['subject']
                         triplets += f"<triplet>{prev_subj}"
