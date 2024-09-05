@@ -153,7 +153,7 @@ def re_score(pred_relations, gt_relations, relation_types, mode="boundaries"):
         vocab (Vocab) :         dataset vocabulary
         mode (str) :            in 'strict' or 'boundaries' """
 
-    assert mode in ["strict", "boundaries"]
+    assert mode in ["strict", "boundaries", "directionless"]
     relation_types = relations if relation_types is None else relation_types
     # relation_types = [v for v in relation_types if not v == "None"]
     scores = {rel: {"tp": 0, "fp": 0, "fn": 0} for rel in relation_types + ["ALL"]}
@@ -177,6 +177,10 @@ def re_score(pred_relations, gt_relations, relation_types, mode="boundaries"):
             elif mode == "boundaries":
                 pred_rels = {(rel["head"], rel["tail"]) for rel in pred_sent if rel["type"] == rel_type}
                 gt_rels = {(rel["head"], rel["tail"]) for rel in gt_sent if rel["type"] == rel_type}
+
+            elif mode == "directionless":
+                pred_rels = {frozenset((rel["head"], rel["tail"])) for rel in pred_sent if rel["type"] == rel_type}
+                gt_rels = {frozenset((rel["head"], rel["tail"])) for rel in gt_sent if rel["type"] == rel_type}
 
             scores[rel_type]["tp"] += len(pred_rels & gt_rels)
             scores[rel_type]["fp"] += len(pred_rels - gt_rels)

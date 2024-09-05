@@ -14,33 +14,35 @@ import torch
 )
 def load_models():
     st_time = time()
-    tokenizer = AutoTokenizer.from_pretrained("Babelscape/rebel-large")
+    tokenizer = AutoTokenizer.from_pretrained("model/personal-rel")
     print("+++++ loading Model", time() - st_time)
-    model = AutoModelForSeq2SeqLM.from_pretrained("Babelscape/rebel-large")
+    model = AutoModelForSeq2SeqLM.from_pretrained("model/personal-rel")
     if torch.cuda.is_available():
         _ = model.to("cuda:0") # comment if no GPU available
     _ = model.eval()
     print("+++++ loaded model", time() - st_time)
-    dataset = load_dataset(path = 'datasets/rebel-short.py', data_files={'train': 'data/rebel/sample.jsonl', 'dev': 'data/rebel/sample.jsonl', 'test': 'data/rebel/sample.jsonl', 'relations': "data/relations_count.tsv"}, split="validation")
+    dataset = load_dataset(path = 'datasets/self_relations.py', data_files={'train': 'E:/CodesRepos/MGR_Gaming/Model/rebel/datasets/data/self_made/self_test.json', 'dev': 'E:/CodesRepos/MGR_Gaming/Model/rebel/datasets/data/self_made/self_test.json', 'test': 'E:/CodesRepos/MGR_Gaming/Model/rebel/datasets/data/self_made/self_test.json'}, split="validation")
     print("loaded")
     return (tokenizer, model, dataset)
 
 def extract_triplets(text):
     triplets = []
-    relation = ''
-    for token in text.split():
-        if token == "<triplet>":
+    relation, subject, relation, object_ = '', '', '', ''
+    text = text.strip('')
+    current = 'x'
+    for token in text.replace("<s>", "").replace("<pad>", "").replace("</s>", "").replace("<", " ").replace(">", " ").split():
+        if token == "triplet":
             current = 't'
             if relation != '':
-                triplets.append((subject, relation, object_))
+                triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
                 relation = ''
             subject = ''
-        elif token == "<subj>":
+        elif token == "subj":
             current = 's'
             if relation != '':
-                triplets.append((subject, relation, object_))
+                triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
             object_ = ''
-        elif token == "<obj>":
+        elif token == "obj":
             current = 'o'
             relation = ''
         else:
@@ -50,7 +52,8 @@ def extract_triplets(text):
                 object_ += ' ' + token
             elif current == 'o':
                 relation += ' ' + token
-    triplets.append((subject, relation, object_))
+    if subject != '' and relation != '' and object_ != '':
+        triplets.append({'head': subject.strip(), 'type': relation.strip(),'tail': object_.strip()})
     return triplets
 
 
